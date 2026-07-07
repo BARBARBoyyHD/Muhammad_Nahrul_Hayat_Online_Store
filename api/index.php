@@ -8,10 +8,10 @@ if ($uri !== '/' && !str_contains($uri, '.php') && is_file(__DIR__ . '/../public
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$storage = $_ENV['VIEW_COMPILED_PATH'] ?? '/tmp/storage';
+$_ENV['LARAVEL_STORAGE_PATH'] = '/tmp/storage';
 
 foreach (['framework/views', 'framework/cache', 'logs'] as $dir) {
-    $path = $storage . '/' . $dir;
+    $path = '/tmp/storage/' . $dir;
     if (!is_dir($path)) {
         @mkdir($path, 0777, true);
     }
@@ -19,6 +19,6 @@ foreach (['framework/views', 'framework/cache', 'logs'] as $dir) {
 
 $app = require __DIR__ . '/../bootstrap/app.php';
 
-$app->useStoragePath($storage);
+$app->useStoragePath('/tmp/storage');
 
 $app->handleRequest(Illuminate\Http\Request::capture());
